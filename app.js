@@ -1,19 +1,23 @@
 const express=require('express');
+const bodyParser=require('body-parser');
+
 
 const app=express();
 
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.use('/add-product',(req,res,next) => {
-    console.log("in another middleware");
-    res.send('<h1>Hello form add-product page</h1>');
+    res.send('<form action="/product" method="POST"><input type="text" name="product_name"><button type="submit">Add Product</button></form>');
+});
+
+app.use('/product', (req,res,next)=>{
+    console.log(req.body);
+    res.redirect('/');
 });
 
 app.use('/',(req,res,next) => {
-    console.log("in another middleware");
     res.send('<h1>Hello form express</h1>');
 });
 
-// const server= http.createServer(app);
-
-// server.listen(3000); //3000 is port no.
 
 app.listen(3000);
